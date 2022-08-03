@@ -1,17 +1,28 @@
-hash1 = { "name" => "Luis", "last_name" => "Saavedra", "age" => 35, "married" => true, "nationality" => "Peruvian", "hobbies" => ['travel', 'videogames', 'cooking'], "pet_info" => { "type" => "dog", "name" => "danke", "age" => "6" }}
-hash2 = { name: "Luis", "last_name" => "Saavedra", "age" => 35, "married" => true, "nationality" => "Peruvian", "hobbies" => ['travel', 'videogames', 'cooking'], "pet_info" => { "type" => "dog", "name" => "danke", "age" => "6" }}
-
-p hash1
-p hash1 === hash2
-diff_in_hash1 = hash1.reject{|key, value| hash2[key] == value}
-diff_in_hash2 = hash2.reject{|key, value| hash1[key] == value}
-p diff_in_hash1
-p diff_in_hash2
-
-hash2["hair"] = "black"
-
-p hash1 === hash2
-diff_in_hash1 = hash1.reject{|key, value| hash2[key] == value}
-diff_in_hash2 = hash2.reject{|key, value| hash1[key] == value}
-p diff_in_hash1
-p diff_in_hash2
+class Comparison
+  def compare(hash1, hash2, deep)
+    if deep
+      if hash1.object_id === hash2.object_id
+        return 'Deep comparison: Hashes are the same'
+      else
+        return 'Deep Comparison: Hashes are different'
+      end
+    else
+      if hash1 === hash2
+        return 'Shallow comparison: Hashes are the same'
+      else #hash1.size > hash2.size
+        (hash1.keys | hash2.keys).each_with_object({}) do |item, hash|
+          if hash1[item] != hash2[item]
+            if hash1[item].is_a?(Hash) && hash2[item].is_a?(Hash)
+              hash[item] = compare(hash1[item], hash2[item], false)
+            elsif hash1[item].is_a?(Array) && hash2[item].is_a?(Array)
+              hash[item] = [hash1[item] - hash2[item], hash2[item] - hash1[item]]
+            else
+              hash[item] = [hash1[item], hash2[item]]
+            end
+          end
+          hash
+        end
+      end
+    end
+  end
+end
