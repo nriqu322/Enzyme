@@ -9,7 +9,7 @@ class Comparison
     else
       if hash1 === hash2
         return 'Shallow comparison: Hashes are the same'
-      else #hash1.size > hash2.size
+      else
         (hash1.keys | hash2.keys).each_with_object({}) do |item, hash|
           if hash1[item] != hash2[item]
             if hash1[item].is_a?(Hash) && hash2[item].is_a?(Hash)
