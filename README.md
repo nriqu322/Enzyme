@@ -15,6 +15,11 @@ You have 2 hashes. You are looking for the difference between the 2. What was ad
 
 - Run `bundle exec rspec` to run all tests and check the test file
 
+## Made with
+
+- Ruby 3.1.1
+- Rspec
+
 ## Participant
 
 👤 **Luis Saavedra**
